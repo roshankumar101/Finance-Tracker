@@ -1,7 +1,8 @@
 import { Trash2 } from 'lucide-react';
-import { deleteTransaction } from '../types/transaction';
+import { deleteTransaction, type Refresh, type Transaction } from '../types/transaction';
 
-const TransactionListTable = ({ transaction, refresh, setRefresh }) => {
+
+const TransactionListTable = ({ transaction, refresh, setRefresh }: {transaction: Transaction, refresh: Refresh['refresh'], setRefresh: Refresh['setRefresh']}) => {
   return (
     <div className={`${(transaction.type==='Income'? 'text-green-500':'text-red-400')} bg-gray-700 grid grid-cols-9 *:text-center py-2 my-2 rounded relative pr-5 sm:pr-0`}>
         <div className="col-span-2 capitalize">{transaction.type}</div>

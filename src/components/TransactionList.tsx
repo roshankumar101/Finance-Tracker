@@ -1,17 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import TransactionListTable from "./TransactionListTable";
-import { getTransactions, type Transaction } from "../types/transaction";
+import { getTransactions, type Refresh, type Transaction } from "../types/transaction";
 
-const TransactionList = ({ refresh,setRefresh }) => {
+const TransactionList = ({ refresh, setRefresh }: Refresh) => {
 
-
-  let transactions: Transaction[] = getTransactions();
-  const getData = () => {
-    transactions = getTransactions();
-  }
+  const [transactions, setTransactions] = useState<Transaction[]>(getTransactions())
   
   useEffect(function(){
-    getData();
+    setTransactions(getTransactions());
   }, [refresh])
 
 

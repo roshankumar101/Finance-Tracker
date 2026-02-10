@@ -1,16 +1,17 @@
-import { useState, FormEvent } from 'react'
-import type { Transaction, Balance } from '../types/transaction';
+import { useState } from 'react'
+import type { Refresh, Transaction } from '../types/transaction';
 import { addTransaction,  generateId } from '../types/transaction'
 
 
-const TransactionForm = ({ refresh, setRefresh }) => {
+
+const TransactionForm = ({ refresh, setRefresh }: Refresh) => {
 
   const [formVisible, setFormVisible] = useState(false);
   const [transaction, setTransaction] = useState<Transaction>({id: '',title: '', type: '', amount: NaN, date: ''})
 
 
 
-  const submitHandler = (e: FormEvent) => {
+  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if(isNaN(transaction.amount) || transaction.amount < 0){
@@ -67,7 +68,7 @@ const TransactionForm = ({ refresh, setRefresh }) => {
           </div>
           <div>
             <label className='text-lg font-medium'>Date</label>
-            <input type="text" required placeholder='Choose from calendar' className='outline-none px-4 py-2 border border-gray-500 rounded-md w-full' value={transaction.date} onChange={(e)=> setInput('date', e.target.value)} />
+            <input type="date" required className='outline-none px-4 py-2 border border-gray-500 rounded-md w-full' value={transaction.date} onChange={(e)=> setInput('date', e.target.value)} />
           </div>
 
         </div>

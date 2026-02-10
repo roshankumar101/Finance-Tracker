@@ -1,16 +1,15 @@
 import { MoveUp, MoveDown } from 'lucide-react'
 import { getBalance, type Balance } from '../types/transaction'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
-const Summary = ({ refresh }) => {
 
-  let balance: Balance = getBalance();
-  const getData = () => {
-    balance = getBalance();
-  }
+const Summary = ({ refresh }: { refresh: boolean} ) => {
+
+  const [balance, setBalance] = useState<Balance>(getBalance())
+
 
   useEffect(function(){
-    getData()
+    setBalance(getBalance())
   }, [refresh])
 
   return (

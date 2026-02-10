@@ -13,6 +13,11 @@ export interface Balance {
 }
 
 
+export type Refresh = {
+  refresh: boolean,
+  setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
 
 // to generate unique id for transaction
 export const generateId = (): string => {
@@ -22,19 +27,24 @@ export const generateId = (): string => {
 
 export const addTransaction = ( transaction: Transaction ) => {
   const transactions: Transaction[] = JSON.parse(localStorage.getItem('transactions') || '[]')
-  transactions.push(transaction);
-  localStorage.setItem('transactions', JSON.stringify(transactions));
+  const sortedTransactions = [...transactions, transaction].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  localStorage.setItem('transactions', JSON.stringify(sortedTransactions));
 
-  manageBalance(transaction.type, transaction.amount)
+  manageBalance(transaction.type, transaction.amount);
 }
 
 
 export const deleteTransaction = ( deleteById: string ) => {
-  const deletingTransaction: Transaction = JSON.parse(localStorage.getItem('transactions') || '[]').find(transaction => transaction.id === deleteById);
-  console.log(deletingTransaction, deletingTransaction.type, deletingTransaction.amount);
-  manageBalance(deletingTransaction.type, -1*(deletingTransaction.amount));
+  const deletingTransaction = (JSON.parse(localStorage.getItem('transactions') || '[]') as Transaction[])
+                                            .find(transaction => transaction.id === deleteById);
+  if(deletingTransaction){                                          
+    console.log(deletingTransaction, deletingTransaction.type, deletingTransaction.amount);
+    manageBalance(deletingTransaction.type, -1*(deletingTransaction.amount));
+  }else{
+    throw Error('Deleting Records not Found!');
+  }
 
-  const transactions: Transaction[] = JSON.parse(localStorage.getItem('transactions') || '[]')
+  const transactions: Transaction[] = (JSON.parse(localStorage.getItem('transactions') || '[]') as Transaction[])
                                       .filter(transaction => transaction.id !== deleteById);
   localStorage.setItem('transactions', JSON.stringify(transactions));
 }

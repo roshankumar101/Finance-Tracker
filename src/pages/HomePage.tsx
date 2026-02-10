@@ -5,7 +5,7 @@ import TransactionList from '../components/TransactionList'
 
 const HomePage = () => {
 
-  const [refresh, setRefresh] = useState<boolean>(true)
+  const [refresh, setRefresh] = useState(true)
 
   return (
     <div className='bg-gray-950 pb-10'>
